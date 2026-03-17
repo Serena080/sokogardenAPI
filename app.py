@@ -1,13 +1,16 @@
 # Import flask and its component
 from flask import *
 import os
+from flask_cors import CORS
 
+#CORS - cross origin resource sharing
 
 #Import the pymysql module- It helps to connect the python flask and mysql database 
 import pymysql
 
-#reate a flask application and give it name
+#Create a flask application and give it name
 app = Flask(__name__)
+CORS(app)
 
 
 
@@ -33,7 +36,7 @@ def signup():
           # print(username,email,password,phone)
 
           #Establish a connection between flask and mysql
-          connection = pymysql.connect(host="localhost", user="root",password="",database="sokogardenonline")
+          connection = pymysql.connect(host="mysql-serena080.alwaysdata.net", user="serena080",password="s3r3na080",database="serena080_sokogarden")
 
           #Create a cursor to execute the  sql query
 
@@ -80,7 +83,7 @@ def signin():
 
 
           # establish connection with the database
-          connection = pymysql.connect(host="localhost", user="root",password="",database="sokogardenonline")
+          connection = pymysql.connect(host="mysql-serena080.alwaysdata.net", user="serena080",password="s3r3na080",database="serena080_sokogarden")
 
           # create a cursor
           cursor = connection.cursor(pymysql.cursors.DictCursor)
@@ -152,7 +155,7 @@ def Addproduct():
 
 
        #Establish a connection with the database
-       connection = pymysql.connect(host="localhost", user="root",password="",database="sokogardenonline")
+       connection = pymysql.connect(host="mysql-serena080.alwaysdata.net", user="serena080",password="s3r3na080",database="serena080_sokogarden")
 
 
 
@@ -188,10 +191,10 @@ def Addproduct():
 
 
 #Below is a route to fetching products
-@app.route("/api/add_product")  
+@app.route("/api/get_products")  
 def get_products():
      # #Create a connection to the database
-     connection = pymysql.connect(host="localhost", user="root",password="",database="sokogardenonline")
+     connection = pymysql.connect(host="mysql-serena080.alwaysdata.net", user="serena080",password="s3r3na080",database="serena080_sokogarden")
 
      # #Create a cursor
      cursor = connection.cursor(pymysql.cursors.DictCursor)
@@ -282,4 +285,4 @@ def mpesa_payment():
       
       
 # Run the application
-app.run(debug=True)
+#app.run(debug=True)
