@@ -191,13 +191,17 @@ def Addproduct():
 
 
 #Below is a route to fetching products
-@app.route("/api/get_products")  
+@app.route("/api/add_product")  
 def get_products():
      # #Create a connection to the database
      connection = pymysql.connect(host="mysql-serena080.alwaysdata.net", user="serena080",password="s3r3na080",database="serena080_sokogarden")
 
-     # #Create a cursor
+      #Create a cursor
      cursor = connection.cursor(pymysql.cursors.DictCursor)
+
+     
+
+
 
      #Structure the sql query to fetch all the products from the table
      sql = "SELECT * FROM product_details"
@@ -276,6 +280,57 @@ def mpesa_payment():
 
 
 
+
+
+# Chatbot responses
+import pandas as pd
+
+app = Flask(__name__)
+CORS(app)
+
+
+# Load chatbot CSV
+df = pd.read_csv('plant_whispers.csv')
+
+# -------------------------------
+# Plantwhisperer Chatbot Route
+# -------------------------------
+
+@app.route('/plantwhisperer', methods=['POST'])
+def plantwhisperer():
+
+    data = request.get_json()
+
+    user_text = data['message'].lower()
+
+    # Default response
+    response = "Sorry 🌱 I don't understand. Try asking something else."
+
+    # Search CSV for matching keywords
+    for index, row in df.iterrows():
+
+        keywords_list = str(row['Keywords']).split(',')
+
+        for word in keywords_list:
+
+            clean_word = word.strip().lower()
+
+            # Check if keyword exists in user message
+            if clean_word in user_text:
+
+                response = row['Response']
+
+                return jsonify({
+                    "response": response
+                })
+
+    return jsonify({
+        "response": response
+    })
+
+
+
+
       
 
 
@@ -285,4 +340,4 @@ def mpesa_payment():
       
       
 # Run the application
-#app.run(debug=True)
+# app.run(debug=True)
